@@ -1,0 +1,31 @@
+DROP ROLE IF EXISTS 'investigator';
+CREATE ROLE 'investigator';
+GRANT SELECT ON culturamysql.alerta TO 'investigator';
+GRANT SELECT ON culturamysql.cultura TO 'investigator';
+GRANT EXECUTE ON PROCEDURE culturamysql.Alterar_Zona TO 'investigator';
+
+BEGIN
+
+INSERT INTO utilizador ( NomeInvestigador, EmailUtilizador, TipoUtilizador)
+VALUES (  sp_NomeInvestigador, sp_EmailUtilizador, sp_TipoUtilizador);
+
+SET @query = CONCAT('CREATE USER "', sp_EmailUtilizador, '"@"', 'localhost', '" IDENTIFIED BY "', sp_Password, '";');
+		PREPARE stmt FROM @query;
+		EXECUTE stmt;
+		DEALLOCATE PREPARE stmt;
+		
+		SET @query = CONCAT('GRANT "', sp_investigador, '" TO "', sp_EmailUtilizador, '"@"', 'localhost', '";');
+		PREPARE stmt FROM @query;
+		EXECUTE stmt;
+		DEALLOCATE PREPARE stmt;
+
+		SET @query = CONCAT('SET DEFAULT ROLE "', sp_investigador, '" FOR "', sp_EmailUtilizador, '"@"', 'localhost', '";');
+		PREPARE stmt FROM @query;
+		EXECUTE stmt;
+		DEALLOCATE PREPARE stmt;
+
+END
+
+config do apache no xampp
+/* Authentication type and info */
+$cfg['Servers'][$i]['auth_type'] = 'cookie';
