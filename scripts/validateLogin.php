@@ -6,7 +6,7 @@
 	$result_query_select = mysqli_query($conn, $query_select); 
 	$conn->next_result();
 	$role = mysqli_fetch_assoc($result_query_select)['current_role()'];
-	if($role == "investigador") { // Alterar role se necessario
+	if($role == "Investigador") { // Alterar role se necessario
 		$response["valid"] = array();
 		$json = json_encode($response["valid"]);
 		echo $json;

@@ -33,7 +33,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         getWritableDatabase().insert(DatabaseConfig.Medicao.TABLE_NAME,null, values);
     }
 
-    public void insertAlerta(String zona, String sensor, String hora, double leitura, String tipoAlerta, String cultura, String mensagem, int idUtilizador, int idCultura, String horaEscrita) {
+    public void insertAlerta(String zona, String sensor, String hora, double leitura, String tipoAlerta, String cultura, int idUtilizador, String horaEscrita, String NivelAlerta, int IdParametroCultura) {
         ContentValues values = new ContentValues();
         values.put(DatabaseConfig.Alerta.COLUMN_NAME_ZONA, zona);
         values.put(DatabaseConfig.Alerta.COLUMN_NAME_SENSOR, sensor);
@@ -41,10 +41,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(DatabaseConfig.Alerta.COLUMN_NAME_LEITURA, leitura);
         values.put(DatabaseConfig.Alerta.COLUMN_NAME_TIPO_ALERTA, tipoAlerta);
         values.put(DatabaseConfig.Alerta.COLUMN_NAME_CULTURA, cultura);
-        values.put(DatabaseConfig.Alerta.COLUMN_NAME_MENSAGEM, mensagem);
+        //values.put(DatabaseConfig.Alerta.COLUMN_NAME_MENSAGEM, mensagem);
         values.put(DatabaseConfig.Alerta.COLUMN_NAME_ID_UTILIZADOR, idUtilizador);
-        values.put(DatabaseConfig.Alerta.COLUMN_NAME_ID_CULTURA, idCultura);
         values.put(DatabaseConfig.Alerta.COLUMN_NAME_HORA_ESCRITA, horaEscrita);
+        values.put(DatabaseConfig.Alerta.COLUMN_NAME_NIVELALERTA, NivelAlerta);
+        values.put(DatabaseConfig.Alerta.COLUMN_NAME_ID_PARAMETROCULTURA, IdParametroCultura);
         getWritableDatabase().insert(DatabaseConfig.Alerta.TABLE_NAME,null, values);
     }
 

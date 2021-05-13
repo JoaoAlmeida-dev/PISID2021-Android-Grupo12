@@ -12,18 +12,18 @@ public class DatabaseConfig {
     }
 
     public static class Alerta implements BaseColumns {
-        public static final String TABLE_NAME="Alerta";
-        public static final String COLUMN_NAME_ID_ALERTA ="IDAlerta";
-        public static final String COLUMN_NAME_ZONA ="Zona";
-        public static final String COLUMN_NAME_SENSOR ="Sensor";
-        public static final String COLUMN_NAME_HORA ="Hora";
-        public static final String COLUMN_NAME_LEITURA ="Leitura";
-        public static final String COLUMN_NAME_TIPO_ALERTA ="TipoAlerta";
-        public static final String COLUMN_NAME_CULTURA ="Cultura";
-        public static final String COLUMN_NAME_MENSAGEM ="Mensagem";
-        public static final String COLUMN_NAME_ID_UTILIZADOR ="IDUtilizador";
-        public static final String COLUMN_NAME_ID_CULTURA ="IDCultura";
-        public static final String COLUMN_NAME_HORA_ESCRITA ="HoraEscrita";
+        public static final String TABLE_NAME                       ="Alerta";
+        public static final String COLUMN_NAME_ID_ALERTA            ="IdAlerta";
+        public static final String COLUMN_NAME_ZONA                 ="IdZona";
+        public static final String COLUMN_NAME_SENSOR               ="IdSensor";
+        public static final String COLUMN_NAME_HORA                 ="Hora";
+        public static final String COLUMN_NAME_LEITURA              ="Leitura";
+        public static final String COLUMN_NAME_TIPO_ALERTA          ="TipoAlerta";
+        public static final String COLUMN_NAME_CULTURA              ="Cultura";
+        public static final String COLUMN_NAME_ID_UTILIZADOR        ="IdUtilizador";
+        public static final String COLUMN_NAME_HORA_ESCRITA         ="HoraEscrita";
+        public static final String COLUMN_NAME_NIVELALERTA          ="NivelAlerta";
+        public static final String COLUMN_NAME_ID_PARAMETROCULTURA  ="IdParametroCultura";
     }
 
     protected static final String SQL_CREATE_MEDICAO =
@@ -38,16 +38,17 @@ public class DatabaseConfig {
     protected static final String SQL_CREATE_ALERTA =
             "CREATE TABLE " + Alerta.TABLE_NAME +
                     " (" + Alerta.COLUMN_NAME_ID_ALERTA + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    Alerta.COLUMN_NAME_ZONA + " TEXT," +
-                    Alerta.COLUMN_NAME_SENSOR + " TEXT, " +
-                    Alerta.COLUMN_NAME_HORA + " TIMESTAMP," +
-                    Alerta.COLUMN_NAME_LEITURA + " DOUBLE," +
-                    Alerta.COLUMN_NAME_TIPO_ALERTA + " TEXT," +
-                    Alerta.COLUMN_NAME_CULTURA + " TEXT," +
-                    Alerta.COLUMN_NAME_MENSAGEM + " TEXT," +
-                    Alerta.COLUMN_NAME_ID_UTILIZADOR + " INTEGER," +
-                    Alerta.COLUMN_NAME_ID_CULTURA + " INTEGER," +
-                    Alerta.COLUMN_NAME_HORA_ESCRITA + " TIMESTAMP )";
+                    Alerta.COLUMN_NAME_ZONA                + " TEXT,"      +
+                    Alerta.COLUMN_NAME_SENSOR              + " TEXT, "     +
+                    Alerta.COLUMN_NAME_HORA                + " TIMESTAMP," +
+                    Alerta.COLUMN_NAME_LEITURA             + " DOUBLE,"    +
+                    Alerta.COLUMN_NAME_TIPO_ALERTA         + " TEXT,"      +
+                    Alerta.COLUMN_NAME_CULTURA             + " TEXT,"      +
+                    Alerta.COLUMN_NAME_ID_UTILIZADOR       + " INTEGER,"   +
+                    Alerta.COLUMN_NAME_HORA_ESCRITA        + " TIMESTAMP " +
+                    Alerta.COLUMN_NAME_NIVELALERTA         + " TEXT,"      +
+                    Alerta.COLUMN_NAME_ID_PARAMETROCULTURA + " INTEGER,"   +
+                    ")";
 
     protected static final String SQL_DELETE_ALERTA_DATA =
             "DELETE FROM " + Alerta.TABLE_NAME;
