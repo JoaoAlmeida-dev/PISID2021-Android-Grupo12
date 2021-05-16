@@ -45,9 +45,9 @@ public class DatabaseConfig {
                     Alerta.COLUMN_NAME_TIPO_ALERTA         + " TEXT,"      +
                     Alerta.COLUMN_NAME_CULTURA             + " TEXT,"      +
                     Alerta.COLUMN_NAME_ID_UTILIZADOR       + " INTEGER,"   +
-                    Alerta.COLUMN_NAME_HORA_ESCRITA        + " TIMESTAMP " +
+                    Alerta.COLUMN_NAME_HORA_ESCRITA        + " TIMESTAMP, " +
                     Alerta.COLUMN_NAME_NIVELALERTA         + " TEXT,"      +
-                    Alerta.COLUMN_NAME_ID_PARAMETROCULTURA + " INTEGER,"   +
+                    Alerta.COLUMN_NAME_ID_PARAMETROCULTURA + " INTEGER"   +
                     ")";
 
     protected static final String SQL_DELETE_ALERTA_DATA =
