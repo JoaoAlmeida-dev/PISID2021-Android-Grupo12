@@ -1,6 +1,7 @@
 package com.example.pisid2021.APP.Connection;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -44,6 +45,8 @@ public class ConnectionHandler {
                 result.append(line);
             }
             conn.disconnect();
+            ///JSONObject jsonObject = new JSONObject(result.toString());
+            //jObj = new JSONArray(jsonObject.);
             jObj = new JSONArray(result.toString());
         } catch (Exception e) {
             e.printStackTrace();

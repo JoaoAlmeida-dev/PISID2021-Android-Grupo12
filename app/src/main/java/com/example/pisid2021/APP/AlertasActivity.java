@@ -106,7 +106,7 @@ public class AlertasActivity extends AppCompatActivity {
         ConnectionHandler jParser = new ConnectionHandler();
         JSONArray alertas = jParser.getJSONFromUrl(getAlertas, params);
         try{
-            if(alertas!=null){
+            if(alertas!=null ){
                 for (int i=0;i< alertas.length();i++){
                     JSONObject c = alertas.getJSONObject(i);
                     String zona = c.getString(DatabaseConfig.Alerta.COLUMN_NAME_ID_ALERTA);
@@ -146,6 +146,8 @@ public class AlertasActivity extends AppCompatActivity {
             }
         }catch (JSONException e){
             e.printStackTrace();
+        }finally {
+
         }
     }
 
@@ -195,7 +197,7 @@ public class AlertasActivity extends AppCompatActivity {
             TextView sensor = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
                     cursorAlertas.getString(cursorAlertas.getColumnIndex(COLUMN_NAME_SENSOR)));
 
-            String valorHora = cursorAlertas.getString(cursorAlertas.getColumnIndex(COLUMN_NAME_HORA)).split(" ")[1];
+            String valorHora = cursorAlertas.getString(cursorAlertas.getColumnIndex(COLUMN_NAME_HORA));//.split(" ")[1];
             TextView hora = getTextView(dpAsPixels(16), dpAsPixels(5), 0, 0, valorHora);
 
             TextView leitura = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(0), 0,
@@ -263,6 +265,7 @@ public class AlertasActivity extends AppCompatActivity {
         editor.apply();
         SharedPreferences.Editor editor2 = sp.edit().putInt("refreshPref", 0);
         editor2.apply();
+        cursorAlertas.close();
     }
 
     @NonNull

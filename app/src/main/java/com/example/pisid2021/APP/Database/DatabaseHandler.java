@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "PISID.db";
-    DatabaseConfig config = new DatabaseConfig();
+    //DatabaseConfig config = new DatabaseConfig();
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -17,16 +17,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(config.SQL_CREATE_DROP_MEDICAO_IFEXISTS);
-        sqLiteDatabase.execSQL(config.SQL_CREATE_MEDICAO);
-        sqLiteDatabase.execSQL(config.SQL_CREATE_DROP_ALERTA_IFEXISTS);
-        sqLiteDatabase.execSQL(config.SQL_CREATE_ALERTA);
-        sqLiteDatabase.execSQL(config.SQL_CREATE_DROP_CULTURA_IFEXISTS);
-        sqLiteDatabase.execSQL(config.SQL_CREATE_CULTURA);
+        dropAndCreate(sqLiteDatabase);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        dropAndCreate(sqLiteDatabase);
+    }
+
+    private void dropAndCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_DROP_MEDICAO_IFEXISTS);
+        sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_MEDICAO);
+
+        sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_DROP_ALERTA_IFEXISTS);
+        sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_ALERTA);
+
+        sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_DROP_CULTURA_IFEXISTS);
+        sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_CULTURA);
+    }
 
     public void insertMedicao(String hora, double leitura) {
         ContentValues values = new ContentValues();
@@ -51,10 +59,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         getWritableDatabase().insert(DatabaseConfig.Alerta.TABLE_NAME,null, values);
     }
 
-    public void clearAlertas() { getWritableDatabase().execSQL(config.SQL_DELETE_ALERTA_DATA); }
+    public void clearAlertas() {
+        getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_ALERTA_DATA);
+    }
 
     public void clearMedicoes() {
-        getWritableDatabase().execSQL(config.SQL_DELETE_MEDICAO_DATA);
+        getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_MEDICAO_DATA);
     }
 
 }
