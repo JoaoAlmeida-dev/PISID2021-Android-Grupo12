@@ -21,6 +21,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(config.SQL_CREATE_MEDICAO);
         sqLiteDatabase.execSQL(config.SQL_CREATE_DROP_ALERTA_IFEXISTS);
         sqLiteDatabase.execSQL(config.SQL_CREATE_ALERTA);
+        sqLiteDatabase.execSQL(config.SQL_CREATE_DROP_CULTURA_IFEXISTS);
+        sqLiteDatabase.execSQL(config.SQL_CREATE_CULTURA);
     }
 
     @Override

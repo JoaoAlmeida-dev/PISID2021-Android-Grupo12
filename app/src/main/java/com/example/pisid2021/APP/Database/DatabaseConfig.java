@@ -11,6 +11,14 @@ public class DatabaseConfig {
         public static final String COLUMN_NAME_LEITURA ="Leitura";
     }
 
+    public static class Cultura implements BaseColumns {
+        public static final String TABLE_NAME="Cultura";
+        public static final String COLUMN_NAME_ID_CULTURA ="IDMedicao";
+        public static final String COLUMN_NAME_NOMECULTURA ="NomeCultura";
+        public static final String COLUMN_NAME_ID_UTILIZADOR ="IdUtilizador";
+        public static final String COLUMN_NAME_ESTADO ="Estado";
+    }
+
     public static class Alerta implements BaseColumns {
         public static final String TABLE_NAME                       ="Alerta";
         public static final String COLUMN_NAME_ID_ALERTA            ="IdAlerta";
@@ -35,6 +43,17 @@ public class DatabaseConfig {
     protected static final String SQL_DELETE_MEDICAO_DATA =
             "DELETE FROM " + Medicao.TABLE_NAME;
 
+    protected static final String SQL_CREATE_CULTURA =
+            "CREATE TABLE " + Cultura.TABLE_NAME +
+                    " (" + Cultura.COLUMN_NAME_ID_CULTURA + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    Cultura.COLUMN_NAME_NOMECULTURA + " TEXT," +
+                    Cultura.COLUMN_NAME_ID_UTILIZADOR + " INTEGER  " +
+                    Cultura.COLUMN_NAME_ESTADO + " INTEGER )";
+
+    protected static final String SQL_DELETE_CULTURA_DATA =
+            "DELETE FROM " + Cultura.TABLE_NAME;
+
+
     protected static final String SQL_CREATE_ALERTA =
             "CREATE TABLE " + Alerta.TABLE_NAME +
                     " (" + Alerta.COLUMN_NAME_ID_ALERTA + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -45,7 +64,7 @@ public class DatabaseConfig {
                     Alerta.COLUMN_NAME_TIPO_ALERTA         + " TEXT,"      +
                     Alerta.COLUMN_NAME_CULTURA             + " TEXT,"      +
                     Alerta.COLUMN_NAME_ID_UTILIZADOR       + " INTEGER,"   +
-                    Alerta.COLUMN_NAME_HORA_ESCRITA        + " TIMESTAMP, " +
+                    Alerta.COLUMN_NAME_HORA_ESCRITA        + " TIMESTAMP," +
                     Alerta.COLUMN_NAME_NIVELALERTA         + " TEXT,"      +
                     Alerta.COLUMN_NAME_ID_PARAMETROCULTURA + " INTEGER"   +
                     ")";
@@ -55,5 +74,6 @@ public class DatabaseConfig {
 
     protected static final String SQL_CREATE_DROP_ALERTA_IFEXISTS=("DROP TABLE IF EXISTS ") + Alerta.TABLE_NAME;
     protected static final String SQL_CREATE_DROP_MEDICAO_IFEXISTS =("DROP TABLE IF EXISTS ") + Medicao.TABLE_NAME;
+    protected static final String SQL_CREATE_DROP_CULTURA_IFEXISTS =("DROP TABLE IF EXISTS ") + Cultura.TABLE_NAME;
 
 }
