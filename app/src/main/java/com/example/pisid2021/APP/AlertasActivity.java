@@ -33,10 +33,11 @@ import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.*;
 
 public class AlertasActivity extends AppCompatActivity {
 
-    private static final String IP = UserLogin.getInstance().getIp();
-    private static final String PORT = UserLogin.getInstance().getPort();
-    private static final String username= UserLogin.getInstance().getUsername();
-    private static final String password = UserLogin.getInstance().getPassword();
+    private static String IP = UserLogin.getInstance().getIp();
+    private static String PORT = UserLogin.getInstance().getPort();
+    private static String username = UserLogin.getInstance().getUsername();
+    private static String password = UserLogin.getInstance().getPassword();
+
     DatabaseHandler db = new DatabaseHandler(this);
     String getAlertas = "http://" + IP + ":" + PORT + "/scripts/getAlertasGlobais.php";
     int year;
@@ -51,6 +52,10 @@ public class AlertasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        refreshLogin();
+
+
         setContentView(R.layout.activity_alertas);
 
         if (getIntent().hasExtra("date")){
@@ -102,28 +107,28 @@ public class AlertasActivity extends AppCompatActivity {
         params.put("username", username);
         params.put("password", password);
         //params.put("date",date);
-        //params.put("idUtilizador","1");
+
         ConnectionHandler jParser = new ConnectionHandler();
         JSONArray alertas = jParser.getJSONFromUrl(getAlertas, params);
         try{
             if(alertas!=null ){
                 for (int i=0;i< alertas.length();i++){
                     JSONObject c = alertas.getJSONObject(i);
-                    String zona = c.getString(DatabaseConfig.Alerta.COLUMN_NAME_ID_ALERTA);
-                    String sensor = c.getString(COLUMN_NAME_ZONA);
-                    String hora = c.getString(COLUMN_NAME_SENSOR);
+                    String zona = c.getString(COLUMN_NAME_ZONA);
+                    String sensor = c.getString(COLUMN_NAME_SENSOR);
+                    String hora = c.getString(COLUMN_NAME_HORA);
                     double leitura;
                     try {
-                        leitura = c.getDouble(DatabaseConfig.Alerta.COLUMN_NAME_HORA);
+                        leitura = c.getDouble(COLUMN_NAME_LEITURA);
                     } catch (Exception e) {
                         leitura = -1000.0;
                     }
-                    String tipoAlerta = c.getString(DatabaseConfig.Alerta.COLUMN_NAME_LEITURA);
-                    String cultura = c.getString(DatabaseConfig.Alerta.COLUMN_NAME_TIPO_ALERTA);
+                    String tipoAlerta = c.getString(COLUMN_NAME_TIPO_ALERTA);
+                    String cultura = c.getString(COLUMN_NAME_CULTURA);
                     //String mensagem = c.getString("Mensagem");
                     int idUtilizador;
                     try {
-                        idUtilizador = c.getInt(DatabaseConfig.Alerta.COLUMN_NAME_CULTURA);
+                        idUtilizador = c.getInt(COLUMN_NAME_ID_UTILIZADOR);
                     } catch (Exception e) {
                         idUtilizador = 0;
                     }
@@ -153,7 +158,7 @@ public class AlertasActivity extends AppCompatActivity {
 
     private void listAlertas() {
         SharedPreferences sp = getApplicationContext().getSharedPreferences("appPref", MODE_PRIVATE);
-        int mostRecentEntry = 0;
+        Long mostRecentEntry = 0L;
 
         TableLayout table = findViewById(R.id.tableAlertas);
 
@@ -170,10 +175,10 @@ public class AlertasActivity extends AppCompatActivity {
                 , COLUMN_NAME_LEITURA
                 , COLUMN_NAME_TIPO_ALERTA
                 , COLUMN_NAME_CULTURA
-                , COLUMN_NAME_ID_UTILIZADOR
+                //, COLUMN_NAME_ID_UTILIZADOR
                 , COLUMN_NAME_HORA_ESCRITA
-                , COLUMN_NAME_NIVELALERTA
                 , COLUMN_NAME_ID_PARAMETROCULTURA
+                , COLUMN_NAME_NIVELALERTA
         );
 
         for (String field: alertaFields) {
@@ -212,8 +217,8 @@ public class AlertasActivity extends AppCompatActivity {
             //TextView mensagem = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
             // cursorAlertas.getString(cursorAlertas.getColumnIndex("Mensagem")));
 
-            TextView idUtilizador = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
-                    Integer.toString(cursorAlertas.getInt(cursorAlertas.getColumnIndex(COLUMN_NAME_ID_UTILIZADOR))));
+            //TextView idUtilizador = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
+            //      Integer.toString(cursorAlertas.getInt(cursorAlertas.getColumnIndex(COLUMN_NAME_ID_UTILIZADOR))));
 
             //TextView idCultura = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
             //      Integer.toString(cursorAlertas.getInt(cursorAlertas.getColumnIndex("IDCultura"))));
@@ -227,11 +232,13 @@ public class AlertasActivity extends AppCompatActivity {
             TextView parametroCultura = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
                     Integer.toString(cursorAlertas.getInt(cursorAlertas.getColumnIndex(COLUMN_NAME_ID_PARAMETROCULTURA))));
 
-            String intHora = valorHora.replace(":", "");
-            int newHora = Integer.parseInt(intHora);
-            if (newHora > mostRecentEntry) mostRecentEntry = newHora;
-            if (newHora > sp.getInt("timePref", 0)) {
-                if (sp.getInt("refreshPref", 1) == 0) {
+            String intHora = valorHora.replace(":", "").replace("-","").replace(" ","");
+            Long newHora = Long.parseLong(intHora);
+            if (newHora > mostRecentEntry) {
+                mostRecentEntry = newHora;
+            }
+            if (newHora > sp.getLong("timePref", 0)) {
+                if (sp.getLong("refreshPref", 1) == 0) {
                     zona.setTextColor(Color.RED);
                     sensor.setTextColor(Color.RED);
                     hora.setTextColor(Color.RED);
@@ -239,7 +246,7 @@ public class AlertasActivity extends AppCompatActivity {
                     tipoAlerta.setTextColor(Color.RED);
                     cultura.setTextColor(Color.RED);
                     //mensagem.setTextColor(Color.RED);
-                    idUtilizador.setTextColor(Color.RED);
+                    //idUtilizador.setTextColor(Color.RED);
                     //idCultura.setTextColor(Color.RED);
                     horaEscrita.setTextColor(Color.RED);
                     nivelAlerta.setTextColor(Color.RED);
@@ -253,17 +260,17 @@ public class AlertasActivity extends AppCompatActivity {
             row.addView(tipoAlerta);
             row.addView(cultura);
             //row.addView(mensagem);
-            row.addView(idUtilizador);
+            //row.addView(idUtilizador);
             //row.addView(idCultura);
             row.addView(horaEscrita);
-            row.addView(nivelAlerta);
             row.addView(parametroCultura);
+            row.addView(nivelAlerta);
 
             table.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
         }
-        SharedPreferences.Editor editor = sp.edit().putInt("timePref", mostRecentEntry);
+        SharedPreferences.Editor editor = sp.edit().putLong("timePref", mostRecentEntry);
         editor.apply();
-        SharedPreferences.Editor editor2 = sp.edit().putInt("refreshPref", 0);
+        SharedPreferences.Editor editor2 = sp.edit().putLong("refreshPref", 0);
         editor2.apply();
         cursorAlertas.close();
     }
@@ -289,6 +296,8 @@ public class AlertasActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        //refreshLogin();
+
         //start handler as activity become visible
         h.postDelayed( runnable = new Runnable() {
             public void run() {
@@ -300,6 +309,13 @@ public class AlertasActivity extends AppCompatActivity {
         }, delay);
 
         super.onResume();
+    }
+
+    private void refreshLogin() {
+        IP = UserLogin.getInstance().getIp();
+        PORT = UserLogin.getInstance().getPort();
+        username = UserLogin.getInstance().getUsername();
+        password = UserLogin.getInstance().getPassword();
     }
 
     @Override

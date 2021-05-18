@@ -1,12 +1,14 @@
 	<?php
 	$url="127.0.0.1";
 	$database="culturamysql"; // Alterar nome da BD se necessario	
-    $conn = mysqli_connect($url,$_POST['username'],$_POST['password'],$database);	
+    $conn = mysqli_connect($url,$_POST['username'],$_POST['password'],$database);
+
 	// Alterar nome da tabela Alerta e nome do campo Hora se necessario
 	//$sql = "SELECT * from Alerta where DATE(Alerta.Hora) = '" . $_POST['date'] . "';";
-	//$sql = "call Selecionar_Alerta("+$_POST['idUtilizador']+")";
-	$sql = "call Selecionar_Alerta()";
-	$result = mysqli_query($conn,"SELECT * from Alerta");
+
+	$sql = "call Selecionar_Alerta('". $_POST['username'] ."')";
+
+	$result = mysqli_query($conn,$sql);
 
 	$response["avisos"] = array();
 
@@ -15,7 +17,7 @@
 			while($r=mysqli_fetch_assoc($result)){
 				$ad = array();
 				// Completar com todos os campos da tabela alerta
-				$ad["IdAlerta"]             = $r['IdAlerta'];
+				//$ad["IdAlerta"]             = $r['IdAlerta'];
 				$ad["IdZona"]               = $r['IdZona'];
 				$ad["IdSensor"]             = $r['IdSensor'];
 				$ad["Hora"]                 = $r['Hora'];

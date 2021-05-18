@@ -45,8 +45,6 @@ public class ConnectionHandler {
                 result.append(line);
             }
             conn.disconnect();
-            ///JSONObject jsonObject = new JSONObject(result.toString());
-            //jObj = new JSONArray(jsonObject.);
             jObj = new JSONArray(result.toString());
         } catch (Exception e) {
             e.printStackTrace();
