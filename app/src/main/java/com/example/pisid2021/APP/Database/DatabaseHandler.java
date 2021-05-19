@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "PISID.db";
-    //DatabaseConfig config = new DatabaseConfig();
+    DatabaseConfig config = new DatabaseConfig();
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -59,9 +59,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         getWritableDatabase().insert(DatabaseConfig.Alerta.TABLE_NAME,null, values);
     }
 
-    public void clearAlertas() {
-        getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_ALERTA_DATA);
+
+    public void insertCultura(String nomecultura, int idUtilizador, int estado, int idZona) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseConfig.Cultura.COLUMN_NAME_NOMECULTURA, nomecultura);
+        values.put(DatabaseConfig.Cultura.COLUMN_NAME_ID_UTILIZADOR, idUtilizador);
+        values.put(DatabaseConfig.Cultura.COLUMN_NAME_ESTADO, estado);
+        values.put(DatabaseConfig.Cultura.COLUMN_NAME_ID_ZONA, idZona);
+        getWritableDatabase().insert(DatabaseConfig.Cultura.TABLE_NAME,null, values);
     }
+
+    public void clearAlertas() { getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_ALERTA_DATA); }
+
+    public void clearCulturas() { getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_CULTURA_DATA); }
 
     public void clearMedicoes() {
         getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_MEDICAO_DATA);

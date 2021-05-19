@@ -323,4 +323,9 @@ public class AlertasActivity extends AppCompatActivity {
         h.removeCallbacks(runnable); //stop handler when activity not visible
         super.onPause();
     }
+
+    /*public void AlterarCultura(View view) {
+        Intent intent= new Intent(AlertasActivity.this, VerCulturaActivity.class);
+        startActivity(intent);
+    }*/
 }

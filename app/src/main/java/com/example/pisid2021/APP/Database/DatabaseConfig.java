@@ -13,10 +13,11 @@ public class DatabaseConfig {
 
     public static class Cultura implements BaseColumns {
         public static final String TABLE_NAME="Cultura";
-        public static final String COLUMN_NAME_ID_CULTURA ="IDMedicao";
+        public static final String COLUMN_NAME_ID_CULTURA ="IdCultura";
         public static final String COLUMN_NAME_NOMECULTURA ="NomeCultura";
         public static final String COLUMN_NAME_ID_UTILIZADOR ="IdUtilizador";
         public static final String COLUMN_NAME_ESTADO ="Estado";
+        public static final String COLUMN_NAME_ID_ZONA ="IdZona";
     }
 
     public static class Alerta implements BaseColumns {
@@ -47,8 +48,9 @@ public class DatabaseConfig {
             "CREATE TABLE " + Cultura.TABLE_NAME +
                     " (" + Cultura.COLUMN_NAME_ID_CULTURA + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Cultura.COLUMN_NAME_NOMECULTURA + " TEXT," +
-                    Cultura.COLUMN_NAME_ID_UTILIZADOR + " INTEGER  " +
-                    Cultura.COLUMN_NAME_ESTADO + " INTEGER )";
+                    Cultura.COLUMN_NAME_ID_UTILIZADOR + " INTEGER," +
+                    Cultura.COLUMN_NAME_ESTADO + " INTEGER," +
+                    Cultura.COLUMN_NAME_ID_ZONA + " INTEGER )";
 
     protected static final String SQL_DELETE_CULTURA_DATA =
             "DELETE FROM " + Cultura.TABLE_NAME;

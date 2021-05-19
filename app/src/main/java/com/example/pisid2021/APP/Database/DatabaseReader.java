@@ -35,4 +35,17 @@ public class DatabaseReader {
         );
         return cursor;
     }
+
+    public Cursor readCulturas(){
+        Cursor cursor = db.query(
+                DatabaseConfig.Cultura.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                DatabaseConfig.Cultura.COLUMN_NAME_NOMECULTURA + " DESC"
+        );
+        return cursor;
+    }
 }
