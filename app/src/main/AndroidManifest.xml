@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
-        <activity android:name=".APP.AlterarParametroActivity"></activity>
+        <activity android:name=".APP.PrincipalActivity"></activity>
+        <activity android:name=".APP.AlterarParametroActivity" />
         <activity android:name=".APP.VerCulturaActivity" />
         <activity
             android:name=".APP.DatePickerActivity"

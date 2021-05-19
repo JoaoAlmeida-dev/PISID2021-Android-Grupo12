@@ -63,12 +63,14 @@ public class LoginActivity extends AppCompatActivity {
 
             new UserLogin(ip.getText().toString(), port.getText().toString(), username.getText().toString(), password.getText().toString());
 
-            Intent i = new Intent(this, VerCulturaActivity.class);
+            Intent i = new Intent(this, PrincipalActivity.class);
             startActivity(i);
             finish();
         } else {
             new AlertDialog.Builder(v.getContext()).setMessage("An error ocurred").show();
         }
     }
+
+
 }
 
