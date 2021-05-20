@@ -158,7 +158,8 @@ public class AlertasActivity extends AppCompatActivity {
 
     private void listAlertas() {
         SharedPreferences sp = getApplicationContext().getSharedPreferences("appPref", MODE_PRIVATE);
-        Long mostRecentEntry = 0L;
+        sp.edit().clear().commit();
+        long mostRecentEntry = 0L;
 
         TableLayout table = findViewById(R.id.tableAlertas);
 
@@ -270,7 +271,7 @@ public class AlertasActivity extends AppCompatActivity {
         }
         SharedPreferences.Editor editor = sp.edit().putLong("timePref", mostRecentEntry);
         editor.apply();
-        SharedPreferences.Editor editor2 = sp.edit().putLong("refreshPref", 0);
+        SharedPreferences.Editor editor2 = sp.edit().putLong("refreshPref", 0L);
         editor2.apply();
         cursorAlertas.close();
     }
