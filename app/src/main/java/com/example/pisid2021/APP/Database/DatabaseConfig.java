@@ -9,6 +9,9 @@ public class DatabaseConfig {
         public static final String COLUMN_NAME_ID_MEDICAO ="IDMedicao";
         public static final String COLUMN_NAME_HORA ="Hora";
         public static final String COLUMN_NAME_LEITURA ="Leitura";
+        public static final String COLUMN_NAME_TIPOLEITURA ="TipoLeitura";
+        public static final String COLUMN_NAME_NOMECULTURA =Cultura.COLUMN_NAME_NOMECULTURA;
+        //also has cultura name
     }
 
     public static class Cultura implements BaseColumns {
@@ -39,7 +42,9 @@ public class DatabaseConfig {
             "CREATE TABLE " + Medicao.TABLE_NAME +
                     " (" + Medicao.COLUMN_NAME_ID_MEDICAO + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Medicao.COLUMN_NAME_HORA + " TIMESTAMP," +
-                    Medicao.COLUMN_NAME_LEITURA + " DOUBLE  )";
+                    Medicao.COLUMN_NAME_LEITURA + " DOUBLE,"+
+                    Medicao.COLUMN_NAME_TIPOLEITURA + " VARCHAR(1)," +
+                    Medicao.COLUMN_NAME_NOMECULTURA + " TEXT )";
 
     protected static final String SQL_DELETE_MEDICAO_DATA =
             "DELETE FROM " + Medicao.TABLE_NAME;

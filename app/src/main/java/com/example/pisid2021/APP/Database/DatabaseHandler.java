@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "PISID.db";
     DatabaseConfig config = new DatabaseConfig();
 
@@ -36,10 +36,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_CULTURA);
     }
 
-    public void insertMedicao(String hora, double leitura) {
+    public void insertMedicao(String hora, double leitura,char tipoLeitura,String culturaName) {
         ContentValues values = new ContentValues();
         values.put(DatabaseConfig.Medicao.COLUMN_NAME_HORA, hora);
         values.put(DatabaseConfig.Medicao.COLUMN_NAME_LEITURA, leitura);
+        values.put(DatabaseConfig.Medicao.COLUMN_NAME_TIPOLEITURA, String.valueOf(tipoLeitura));
+        values.put(DatabaseConfig.Medicao.COLUMN_NAME_NOMECULTURA, culturaName);
         getWritableDatabase().insert(DatabaseConfig.Medicao.TABLE_NAME,null, values);
     }
 
