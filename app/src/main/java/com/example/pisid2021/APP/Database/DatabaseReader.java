@@ -31,7 +31,7 @@ public class DatabaseReader {
                 null,
                 null,
                 null,
-                DatabaseConfig.Alerta.COLUMN_NAME_HORA + " DESC"
+                DatabaseConfig.Alerta.COLUMN_NAME_HORA + " DESC LIMIT 100"
         );
         return cursor;
     }
