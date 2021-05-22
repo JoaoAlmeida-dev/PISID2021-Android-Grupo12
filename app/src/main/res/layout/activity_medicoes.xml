@@ -11,55 +11,29 @@
         android:layout_width="145dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="Medições"
         android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
-        app:layout_constraintEnd_toStartOf="@+id/AlterarParametros_bt"
-        app:layout_constraintStart_toEndOf="@+id/Culturas_bt"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/Culturas_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:onClick="irCulturas"
-        android:text="Culturas"
-        app:layout_constraintBottom_toBottomOf="@+id/medicoesTemperatura_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/medicoesTemperatura_tv" />
-
-    <Button
-        android:id="@+id/AlterarParametros_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:onClick="irParametros"
-        android:text="Parametros"
-        app:layout_constraintBottom_toBottomOf="@+id/medicoesTemperatura_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/medicoesTemperatura_tv" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:gravity="center"
         android:stretchColumns="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/medicoesTemperatura_tv">
 
 
         <TableRow
@@ -71,13 +45,14 @@
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/Luz_graph"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginStart="0dp"
                 android:layout_marginLeft="0dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1" />
         </TableRow>
 
@@ -90,13 +65,14 @@
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/Humidade_graph"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginStart="0dp"
                 android:layout_marginLeft="0dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1" />
         </TableRow>
 
@@ -109,14 +85,37 @@
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/Temperatura_graph"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginStart="0dp"
                 android:layout_marginLeft="0dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/Culturas_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="irCulturas"
+                android:text="Voltar" />
+
+            <Button
+                android:id="@+id/AlterarParametros_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="irParametros"
+                android:text="Parametros" />
         </TableRow>
 
     </TableLayout>

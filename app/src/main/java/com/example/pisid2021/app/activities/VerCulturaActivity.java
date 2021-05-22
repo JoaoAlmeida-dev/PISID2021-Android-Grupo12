@@ -58,8 +58,7 @@ public class VerCulturaActivity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
-        //params.put("date",date);
-        //params.put("idUtilizador","1");
+
         ConnectionHandler jParser = new ConnectionHandler();
         JSONArray culturas = jParser.getJSONFromUrl(getCulturas, params);
         try{
@@ -222,4 +221,11 @@ public class VerCulturaActivity extends AppCompatActivity {
         h.removeCallbacks(runnable); //stop handler when activity not visible
         super.onPause();
     }
+
+    public void voltarInicio(View v){
+        Intent i = new Intent(this, PrincipalActivity.class);
+        startActivity(i);
+        finish();
+    }
+
 }
