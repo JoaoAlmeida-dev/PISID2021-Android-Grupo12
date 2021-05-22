@@ -1,4 +1,4 @@
-package com.example.pisid2021.APP;
+package com.example.pisid2021.app.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.pisid2021.APP.Connection.ConnectionHandler;
-import com.example.pisid2021.APP.Helper.UserLogin;
+import com.example.pisid2021.app.connection.ConnectionHandler;
+import com.example.pisid2021.app.helper.UserLogin;
 import com.example.pisid2021.R;
 
 import org.json.JSONArray;

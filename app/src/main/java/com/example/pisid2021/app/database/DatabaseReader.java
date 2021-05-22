@@ -1,4 +1,4 @@
-package com.example.pisid2021.APP.Database;
+package com.example.pisid2021.app.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,6 +45,18 @@ public class DatabaseReader {
                 null,
                 null,
                 DatabaseConfig.Cultura.COLUMN_NAME_NOMECULTURA + " DESC"
+        );
+        return cursor;
+    }
+    public Cursor readParametroCulturas(int id){
+        Cursor cursor = db.query(
+                DatabaseConfig.ParametroCultura.TABLE_NAME,
+                null,
+                DatabaseConfig.ParametroCultura.COLUMN_NAME_IdCultura + "='" + id+"'",
+                null,
+                null,
+                null,
+                DatabaseConfig.ParametroCultura.COLUMN_NAME_IdParametroCultura + " DESC LIMIT 1"
         );
         return cursor;
     }

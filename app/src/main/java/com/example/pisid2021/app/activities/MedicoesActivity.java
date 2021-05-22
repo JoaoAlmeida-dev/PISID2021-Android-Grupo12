@@ -1,4 +1,4 @@
-package com.example.pisid2021.APP;
+package com.example.pisid2021.app.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,10 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.pisid2021.APP.Connection.ConnectionHandler;
-import com.example.pisid2021.APP.Database.DatabaseHandler;
-import com.example.pisid2021.APP.Database.DatabaseReader;
-import com.example.pisid2021.APP.Helper.UserLogin;
+import com.example.pisid2021.app.connection.ConnectionHandler;
+import com.example.pisid2021.app.database.DatabaseHandler;
+import com.example.pisid2021.app.database.DatabaseReader;
+import com.example.pisid2021.app.helper.UserLogin;
 import com.example.pisid2021.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
@@ -32,6 +32,8 @@ import java.util.concurrent.TimeUnit;
 
 import android.os.Handler;
 
+import static com.example.pisid2021.app.activities.VerCulturaActivity.CULTURA_ID_EXTRA;
+
 public class MedicoesActivity extends AppCompatActivity {
 
     private static final String IP = UserLogin.getInstance().getIp();
@@ -41,6 +43,7 @@ public class MedicoesActivity extends AppCompatActivity {
 
     String getMedicoes = "http://" + IP + ":" + PORT + "/scripts/getMedicoesTemperatura.php";
     DatabaseHandler db = new DatabaseHandler(this);
+    int culturaID;
 
     Handler h = new Handler();
     int delay = 1000; //1 second=1000 milisecond
@@ -48,6 +51,13 @@ public class MedicoesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Bundle b = getIntent().getExtras();
+        int value = -1; // or other values
+        if(b != null)
+            value = b.getInt(CULTURA_ID_EXTRA);
+        culturaID=value;
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicoes);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -77,8 +87,13 @@ public class MedicoesActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    public void alertas(View v){
-        Intent i = new Intent(this, AlertasActivity.class);
+    public void irCulturas(View v){
+        Intent i = new Intent(this, VerCulturaActivity.class);
+        startActivity(i);
+    }
+    public void irParametros(View v){
+        Intent i = new Intent(this, AlterarParametroActivity.class);
+        i.putExtra(CULTURA_ID_EXTRA,culturaID);
         startActivity(i);
     }
 
@@ -87,6 +102,7 @@ public class MedicoesActivity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
+        params.put("culturaID", String.valueOf(culturaID));
         ConnectionHandler jParser = new ConnectionHandler();
         JSONArray medicoes = jParser.getJSONFromUrl(getMedicoes, params);
         try {
