@@ -1,4 +1,4 @@
-package com.example.pisid2021.APP.Database;
+package com.example.pisid2021.app.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 8;
     public static final String DATABASE_NAME = "PISID.db";
     DatabaseConfig config = new DatabaseConfig();
 
@@ -34,12 +34,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_DROP_CULTURA_IFEXISTS);
         sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_CULTURA);
+
+        sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_DROP_PARAMETROCULTURA_IFEXISTS);
+        sqLiteDatabase.execSQL(DatabaseConfig.SQL_CREATE_PARAMETROCULTURA);
     }
 
-    public void insertMedicao(String hora, double leitura) {
+    public void insertMedicao(String hora, double leitura,char tipoLeitura,String culturaName) {
         ContentValues values = new ContentValues();
         values.put(DatabaseConfig.Medicao.COLUMN_NAME_HORA, hora);
         values.put(DatabaseConfig.Medicao.COLUMN_NAME_LEITURA, leitura);
+        values.put(DatabaseConfig.Medicao.COLUMN_NAME_TIPOLEITURA, String.valueOf(tipoLeitura));
+        values.put(DatabaseConfig.Medicao.COLUMN_NAME_NOMECULTURA, culturaName);
         getWritableDatabase().insert(DatabaseConfig.Medicao.TABLE_NAME,null, values);
     }
 
@@ -60,13 +65,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public void insertCultura(String nomecultura, int idUtilizador, int estado, int idZona) {
+    public void insertCultura(int idcultura,String nomecultura, int idUtilizador, int estado, int idZona) {
         ContentValues values = new ContentValues();
+        values.put(DatabaseConfig.Cultura.COLUMN_NAME_ID_CULTURA, idcultura);
         values.put(DatabaseConfig.Cultura.COLUMN_NAME_NOMECULTURA, nomecultura);
         values.put(DatabaseConfig.Cultura.COLUMN_NAME_ID_UTILIZADOR, idUtilizador);
         values.put(DatabaseConfig.Cultura.COLUMN_NAME_ESTADO, estado);
         values.put(DatabaseConfig.Cultura.COLUMN_NAME_ID_ZONA, idZona);
         getWritableDatabase().insert(DatabaseConfig.Cultura.TABLE_NAME,null, values);
+    }
+
+    public void insertParametroCultura(int IdParametroCultura, int IdCultura,
+                                       double MinHumidade, double MaxHumidade,
+                                       double MinTemperatura, double MaxTemperatura,
+                                       double MinLuz, double MaxLuz,
+                                       double DangerZoneMinHumidade, double DangerZoneMaxHumidade,
+                                       double DangerZoneMinTemperatura, double DangerZoneMaxTemperatura,
+                                       double DangerZoneMinLuz, double DangerZoneMaxLuz) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_IdParametroCultura,IdParametroCultura );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_IdCultura,IdCultura );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_MinHumidade,MinHumidade );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_MaxHumidade,MaxHumidade );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_MinTemperatura,MinTemperatura );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_MaxTemperatura,MaxTemperatura );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_MinLuz,MinLuz );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_MaxLuz,MaxLuz );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_DangerZoneMinHumidade,DangerZoneMinHumidade );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_DangerZoneMaxHumidade,DangerZoneMaxHumidade );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_DangerZoneMinTemperatura,DangerZoneMinTemperatura );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_DangerZoneMaxTemperatura,DangerZoneMaxTemperatura );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_DangerZoneMinLuz,DangerZoneMinLuz );
+        values.put(DatabaseConfig.ParametroCultura.COLUMN_NAME_DangerZoneMaxLuz,DangerZoneMaxLuz );
+        getWritableDatabase().insert(DatabaseConfig.ParametroCultura.TABLE_NAME,null, values);
     }
 
     public void clearAlertas() { getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_ALERTA_DATA); }
@@ -75,6 +106,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void clearMedicoes() {
         getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_MEDICAO_DATA);
+    }
+    public void clearParametrosCultura() {
+        getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_PARAMETROCULTURA_DATA);
     }
 
 }

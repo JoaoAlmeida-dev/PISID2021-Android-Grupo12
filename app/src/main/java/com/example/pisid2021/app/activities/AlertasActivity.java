@@ -1,4 +1,4 @@
-package com.example.pisid2021.APP;
+package com.example.pisid2021.app.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,11 +13,11 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.pisid2021.APP.Connection.ConnectionHandler;
-import com.example.pisid2021.APP.Database.DatabaseConfig;
-import com.example.pisid2021.APP.Database.DatabaseHandler;
-import com.example.pisid2021.APP.Database.DatabaseReader;
-import com.example.pisid2021.APP.Helper.UserLogin;
+import com.example.pisid2021.app.connection.ConnectionHandler;
+import com.example.pisid2021.app.database.DatabaseConfig;
+import com.example.pisid2021.app.database.DatabaseHandler;
+import com.example.pisid2021.app.database.DatabaseReader;
+import com.example.pisid2021.app.helper.UserLogin;
 import com.example.pisid2021.R;
 
 import org.json.JSONArray;
@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.*;
+import static com.example.pisid2021.app.database.DatabaseConfig.Alerta.*;
 
 public class AlertasActivity extends AppCompatActivity {
 
@@ -54,7 +54,8 @@ public class AlertasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         refreshLogin();
-
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("appPref", MODE_PRIVATE);
+        sp.edit().clear().commit();
 
         setContentView(R.layout.activity_alertas);
 
@@ -154,10 +155,9 @@ public class AlertasActivity extends AppCompatActivity {
                 }
             }
 
-
     private void listAlertas() {
         SharedPreferences sp = getApplicationContext().getSharedPreferences("appPref", MODE_PRIVATE);
-        sp.edit().clear().commit();
+
         long mostRecentEntry = 0L;
 
         TableLayout table = findViewById(R.id.tableAlertas);
@@ -256,7 +256,8 @@ public class AlertasActivity extends AppCompatActivity {
             }
             final long timePref = (long)sp.getLong("timePref", 0L);
             if (newHora > timePref) {
-                if (sp.getLong("refreshPref", 1L) == 0L) {
+                long refreshPref = sp.getLong("refreshPref", 1L);
+                if (refreshPref == 0L) {
                     nivelAlertaSring = nivelAlertaSring.toLowerCase();
                     if(nivelAlertaSring.contains("healthy")){
                         changeTextViewColor(zona, sensor, hora, leitura, tipoAlerta, cultura, horaEscrita, nivelAlerta, parametroCultura, Color.GREEN);

@@ -15,20 +15,20 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
-        <activity android:name=".APP.PrincipalActivity"></activity>
-        <activity android:name=".APP.AlterarParametroActivity" />
-        <activity android:name=".APP.VerCulturaActivity" />
+        <activity android:name=".app.activities.PrincipalActivity"></activity>
+        <activity android:name=".app.activities.AlterarParametroActivity" />
+        <activity android:name=".app.activities.VerCulturaActivity" />
         <activity
-            android:name=".APP.DatePickerActivity"
+            android:name=".app.activities.DatePickerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".APP.AlertasActivity"
+            android:name=".app.activities.AlertasActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".APP.MedicoesActivity"
+            android:name=".app.activities.MedicoesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".APP.LoginActivity"
+            android:name=".app.activities.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

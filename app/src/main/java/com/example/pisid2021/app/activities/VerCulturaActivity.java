@@ -1,29 +1,23 @@
-package com.example.pisid2021.APP;
+package com.example.pisid2021.app.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Button;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.pisid2021.APP.Connection.ConnectionHandler;
-import com.example.pisid2021.APP.Database.DatabaseConfig;
-import com.example.pisid2021.APP.Database.DatabaseHandler;
-import com.example.pisid2021.APP.Database.DatabaseReader;
-import com.example.pisid2021.APP.Helper.UserLogin;
+import com.example.pisid2021.app.connection.ConnectionHandler;
+import com.example.pisid2021.app.database.DatabaseHandler;
+import com.example.pisid2021.app.database.DatabaseReader;
+import com.example.pisid2021.app.helper.UserLogin;
 import com.example.pisid2021.R;
 
 import org.json.JSONArray;
@@ -31,23 +25,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_CULTURA;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_HORA;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_HORA_ESCRITA;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_ID_PARAMETROCULTURA;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_ID_UTILIZADOR;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_LEITURA;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_NIVELALERTA;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_SENSOR;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_TIPO_ALERTA;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Alerta.COLUMN_NAME_ZONA;
-import static com.example.pisid2021.APP.Database.DatabaseConfig.Cultura.*;
-import java.util.Arrays;
-import java.util.List;
+import static com.example.pisid2021.app.database.DatabaseConfig.Alerta.COLUMN_NAME_ID_UTILIZADOR;
+import static com.example.pisid2021.app.database.DatabaseConfig.Cultura.*;
 
 public class VerCulturaActivity extends AppCompatActivity {
 
@@ -55,6 +37,7 @@ public class VerCulturaActivity extends AppCompatActivity {
     private static final String PORT = UserLogin.getInstance().getPort();
     private static final String username= UserLogin.getInstance().getUsername();
     private static final String password = UserLogin.getInstance().getPassword();
+    public static final String CULTURA_ID_EXTRA = "culturaID";
     DatabaseHandler db = new DatabaseHandler(this);
     String getCulturas = "http://" + IP + ":" + PORT + "/scripts/getCulturas.php";
     Handler h = new Handler();
@@ -75,22 +58,37 @@ public class VerCulturaActivity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
-        //params.put("date",date);
-        //params.put("idUtilizador","1");
+
         ConnectionHandler jParser = new ConnectionHandler();
         JSONArray culturas = jParser.getJSONFromUrl(getCulturas, params);
         try{
             if(culturas!=null){
                 for (int i=0;i< culturas.length();i++){
                     JSONObject c = culturas.getJSONObject(i);
+
+                    int idCultura;
+                    try {
+                        idCultura = c.getInt(COLUMN_NAME_ID_CULTURA);
+                    } catch (Exception e) {
+                        idCultura = 0;
+                    }
+
                     String nomecultura = c.getString(COLUMN_NAME_NOMECULTURA);
+
                     int idUtilizador;
                     try {
                         idUtilizador = c.getInt(COLUMN_NAME_ID_UTILIZADOR);
                     } catch (Exception e) {
                         idUtilizador = 0;
                     }
-                    int estado = c.getInt(COLUMN_NAME_ESTADO);
+
+                    int estado;
+                    try {
+                        estado = c.getInt(COLUMN_NAME_ESTADO);
+                    } catch (Exception e) {
+                        estado = 0;
+                    }
+
                     int idZona;
                     try {
                         idZona = c.getInt(COLUMN_NAME_ID_ZONA);
@@ -98,7 +96,7 @@ public class VerCulturaActivity extends AppCompatActivity {
                         idZona = 0;
                     }
 
-                    db.insertCultura(nomecultura,idUtilizador,estado,idZona);
+                    db.insertCultura(idCultura,nomecultura,idUtilizador,estado,idZona);
 
                 }
             }
@@ -120,8 +118,8 @@ public class VerCulturaActivity extends AppCompatActivity {
         headerRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
         List<String> culturaFields = Arrays.asList(
-                COLUMN_NAME_NOMECULTURA
-                , COLUMN_NAME_ID_UTILIZADOR
+                "Medições"
+                ,COLUMN_NAME_NOMECULTURA
                 , COLUMN_NAME_ESTADO
                 , COLUMN_NAME_ID_ZONA
         );
@@ -140,21 +138,44 @@ public class VerCulturaActivity extends AppCompatActivity {
         while (cursorCulturas.moveToNext()){
             TableRow row = new TableRow(this);
             row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+            int left=       dpAsPixels(16);
+            int top =       dpAsPixels(5);
+            int right =     dpAsPixels(5);
+            int bottom =    0;
+            Button medicoes = new Button(this);
+            medicoes.setText("medicoes");
+            final String culturaName = cursorCulturas.getString(cursorCulturas.getColumnIndex(COLUMN_NAME_NOMECULTURA));
+            int culturaID ;
+            try {
+                culturaID=cursorCulturas.getInt(cursorCulturas.getColumnIndex(COLUMN_NAME_ID_CULTURA));
+            }catch(Exception e){
+                culturaID = 0;
+            }
+            final int finalCulturaID = culturaID;
+            medicoes.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent i = new Intent(VerCulturaActivity.this, MedicoesActivity.class);
+                    i.putExtra(CULTURA_ID_EXTRA, finalCulturaID);
+                    startActivity(i);
+                    finish();
+                }
+            });
 
-            TextView nomecultura = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
-                    cursorCulturas.getString(cursorCulturas.getColumnIndex(COLUMN_NAME_NOMECULTURA)));
+            TextView nomecultura = getTextView(left, top, right, bottom,
+                    culturaName);
 
-            TextView idUtilizador = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
-                    Integer.toString(cursorCulturas.getInt(cursorCulturas.getColumnIndex(COLUMN_NAME_ID_UTILIZADOR))));
+            //TextView idUtilizador = getTextView(left, top, right, bottom,
+            //        Integer.toString(cursorCulturas.getInt(cursorCulturas.getColumnIndex(COLUMN_NAME_ID_UTILIZADOR))));
 
-            TextView estado = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
+            TextView estado = getTextView(left, top, right, bottom,
                     Integer.toString(cursorCulturas.getInt(cursorCulturas.getColumnIndex(COLUMN_NAME_ESTADO))));
 
-            TextView idZona = getTextView(dpAsPixels(16), dpAsPixels(5), dpAsPixels(5), 0,
+            TextView idZona = getTextView(left, top, right, bottom,
                     Integer.toString(cursorCulturas.getInt(cursorCulturas.getColumnIndex(COLUMN_NAME_ID_ZONA))));
 
+            row.addView(medicoes);
             row.addView(nomecultura);
-            row.addView(idUtilizador);
+            //row.addView(idUtilizador);
             row.addView(estado);
             row.addView(idZona);
 
@@ -200,4 +221,11 @@ public class VerCulturaActivity extends AppCompatActivity {
         h.removeCallbacks(runnable); //stop handler when activity not visible
         super.onPause();
     }
+
+    public void voltarInicio(View v){
+        Intent i = new Intent(this, PrincipalActivity.class);
+        startActivity(i);
+        finish();
+    }
+
 }

@@ -1,7 +1,6 @@
-package com.example.pisid2021.APP.Connection;
+package com.example.pisid2021.app.connection;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

@@ -1,4 +1,4 @@
-package com.example.pisid2021.APP;
+package com.example.pisid2021.app.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

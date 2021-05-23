@@ -1,4 +1,4 @@
-package com.example.pisid2021.APP.Database;
+package com.example.pisid2021.app.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,11 +10,11 @@ public class DatabaseReader {
         db = dbHandler.getReadableDatabase();
     }
 
-    public Cursor readMedicoes(){
+    public Cursor readMedicoes(char tipoMedicao){
         Cursor cursor = db.query(
                 DatabaseConfig.Medicao.TABLE_NAME,
                 null,
-                null,
+                DatabaseConfig.Medicao.COLUMN_NAME_TIPOLEITURA+"='"+tipoMedicao+"'",
                 null,
                 null,
                 null,
@@ -45,6 +45,18 @@ public class DatabaseReader {
                 null,
                 null,
                 DatabaseConfig.Cultura.COLUMN_NAME_NOMECULTURA + " DESC"
+        );
+        return cursor;
+    }
+    public Cursor readParametroCulturas(int id){
+        Cursor cursor = db.query(
+                DatabaseConfig.ParametroCultura.TABLE_NAME,
+                null,
+                DatabaseConfig.ParametroCultura.COLUMN_NAME_IdCultura + "='" + id+"'",
+                null,
+                null,
+                null,
+                DatabaseConfig.ParametroCultura.COLUMN_NAME_IdParametroCultura + " DESC LIMIT 1"
         );
         return cursor;
     }
