@@ -43,6 +43,7 @@ session_start();
 			});
 		} );
 		</script>
-  
+		
+		<center><a href="Home.php"> <input type="button" value="Voltar para pagina inicial"></a></br></center>
 </body>
 </html>

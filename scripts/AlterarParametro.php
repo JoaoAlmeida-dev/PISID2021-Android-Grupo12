@@ -1,10 +1,9 @@
 <?php
-	
-session_start();	
-	//Incluindo a conexão com banco de dados
-	include_once("DatabaseConnection.php");
+session_start();
+//Incluindo a conexão com banco de dados
+include_once("DatabaseConnection.php");
+
 ?>
-<!DOCTYPE html>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,20 +24,19 @@ session_start();
     </style>
 </head>
 <body>
-
+	
 <div id="divCenter">
     <h1>AlterarParametroCultura</h1>
-	<form method="POST" action="BuscarAlteraParamt.php">
-        <br/>
-        IdParametroCultura: <input type="IdParametroCultura" name="IdParametroCultura" pattern="[0-9]+"><br/>
-        <br/>
-        IdCultura: <input type="IdCultura" name="IdCultura" pattern="[0-9]+"><br/>
+	<form method="POST" action="BuscaAlteraParamt.php">
         <br/>
         <br/>
-        MinHumidade: <input type="MinHumidade" name="MinHumidade" step="0.010"><br/>
+		IdCultura: <input type="IdCultura" name="IdCultura"  pattern="[0-9]+"><br/>
+		<br/>
+        <br/>
+        MinHumidade: <input type="MinHumidade" name="MinHumidade"  step="0.010"><br/>
         <br/>
         <br/>
-        MaxHumidade: <input type="MaxHumidade" name="MaxHumidade" step="0.010"><br/>
+        MaxHumidade: <input type="MaxHumidade" name="MaxHumidade"  step="0.010"><br/>
         <br/>
         <br/>
         MinTemperatura: <input type="MinTemperatura" name="MinTemperatura" step="0.010"><br/>
@@ -47,13 +45,13 @@ session_start();
         MaxTemperatura: <input type="MaxTemperatura" name="MaxTemperatura" step="0.010"><br/>
         <br/>
         <br/>
-        MinLuz: <input type="MinLuz" name="MinLuz" step="0.010"><br/>
+        MinLuz: <input type="MinLuz" name="MinLuz"  step="0.010"><br/>
         <br/>
         <br/>
-        MaxLuz: <input type="MaxLuz" name="MaxLuz" step="0.010"><br/>
+        MaxLuz: <input type="MaxLuz" name="MaxLuz"  step="0.010"><br/>
         <br/>
         <br/>
-        DangerZoneMinHumidade: <input type="DangerZoneMinHumidade" name="DangerZoneMinHumidade" step="0.010"><br/>
+        DangerZoneMinHumidade: <input type="DangerZoneMinHumidade" name="DangerZoneMinHumidade"  step="0.010"><br/>
         <br/>
         <br/>
         DangerZoneMaxHumidade: <input type="DangerZoneMaxHumidade" name="DangerZoneMaxHumidade" step="0.010"><br/>
@@ -65,13 +63,13 @@ session_start();
         DangerZoneMaxTemperatura: <input type="DangerZoneMaxTemperatura" name="DangerZoneMaxTemperatura" step="0.010"><br/>
         <br/>
         <br/>
-        DangerZoneMinLuz: <input type="DangerZoneMinLuz" name="DangerZoneMinLuz" step="0.010"><br/>
+        DangerZoneMinLuz: <input type="DangerZoneMinLuz" name="DangerZoneMinLuz"  step="0.010"><br/>
         <br/>
         <br/>
-        DangerZoneMaxLuz: <input type="DangerZoneMaxLuz" name="DangerZoneMaxLuz" step="0.010"><br/>
+        DangerZoneMaxLuz: <input type="DangerZoneMaxLuz" name="DangerZoneMaxLuz"  step="0.010"><br/>
         <br/>
-
-        <input type="submit" name="btnLogIn" value="Salvar">
+		<input type="submit" value="Salvar">
+		<center><a href="Home.php"> <input type="button" value="Voltar para pagina inicial"></a></br></center>
     </form>
 </div>
 </body>
