@@ -40,6 +40,7 @@ public class MedicoesActivity extends AppCompatActivity {
     private static final String PORT = UserLogin.getInstance().getPort();
     private static final String username= UserLogin.getInstance().getUsername();
     private static final String password = UserLogin.getInstance().getPassword();
+    public static final int GRAPHMAXTIMEPERIOD = 5*60;
 
     String getMedicoes = "http://" + IP + ":" + PORT + "/scripts/getMedicoesTemperatura.php";
     DatabaseHandler db = new DatabaseHandler(this);
@@ -98,7 +99,7 @@ public class MedicoesActivity extends AppCompatActivity {
     }
 
     private void updateMedicoes(){
-        db.clearMedicoes();
+        //db.clearMedicoes();
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
@@ -166,7 +167,15 @@ public class MedicoesActivity extends AppCompatActivity {
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(300);
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-        staticLabelsFormatter.setHorizontalLabels(new String[] {"300"," 250", "200", "150", "100", "50", "0"});
+        staticLabelsFormatter.setHorizontalLabels(new String[] {
+                   String.valueOf(6*GRAPHMAXTIMEPERIOD/6)
+                ,  String.valueOf(5*GRAPHMAXTIMEPERIOD/6)
+                ,  String.valueOf(4*GRAPHMAXTIMEPERIOD/6)
+                ,  String.valueOf(3*GRAPHMAXTIMEPERIOD/6)
+                ,  String.valueOf(2*GRAPHMAXTIMEPERIOD/6)
+                , String.valueOf( GRAPHMAXTIMEPERIOD /6)
+                , String.valueOf(0)
+        });
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
@@ -185,12 +194,12 @@ public class MedicoesActivity extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         while (cursorTemperatura.moveToNext()){
             String hora =  cursorTemperatura.getString(cursorTemperatura.getColumnIndex("Hora"));
-            Integer valorMedicao = cursorTemperatura.getInt(cursorTemperatura.getColumnIndex("Leitura"));
+            double valorMedicao = cursorTemperatura.getDouble(cursorTemperatura.getColumnIndex("Leitura"));
             try {
                 Date date = format.parse(hora);
                 long pointLong = date.getTime();
                 long difference = currentLong - pointLong;
-                double seconds = 300 - TimeUnit.MILLISECONDS.toSeconds(difference);
+                double seconds = GRAPHMAXTIMEPERIOD - TimeUnit.MILLISECONDS.toSeconds(difference);
                 datapointsTemperatura[helper]=new DataPoint(seconds,valorMedicao);
             } catch (ParseException e) {
                 e.printStackTrace();

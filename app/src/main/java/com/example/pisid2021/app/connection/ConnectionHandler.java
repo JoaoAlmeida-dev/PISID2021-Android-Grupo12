@@ -71,7 +71,7 @@ public class ConnectionHandler {
             wr.writeBytes(paramsString);
             wr.flush();
             wr.close();
-
+            conn.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }

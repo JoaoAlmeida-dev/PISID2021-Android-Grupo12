@@ -2,12 +2,13 @@ package com.example.pisid2021.app.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 8;
+    public static final int DATABASE_VERSION = 9;
     public static final String DATABASE_NAME = "PISID.db";
     DatabaseConfig config = new DatabaseConfig();
 
@@ -105,6 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void clearCulturas() { getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_CULTURA_DATA); }
 
     public void clearMedicoes() {
+        //Cursor cursor = getWritableDatabase().delete(DatabaseConfig.Medicao.TABLE_NAME, DatabaseConfig.Medicao.TABLE_NAME+"."+ DatabaseConfig.Medicao.COLUMN_NAME_HORA + " <= now() - interval 1 day");
         getWritableDatabase().execSQL(DatabaseConfig.SQL_DELETE_MEDICAO_DATA);
     }
     public void clearParametrosCultura() {

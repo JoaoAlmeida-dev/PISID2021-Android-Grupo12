@@ -20,6 +20,7 @@ public class DatabaseReader {
                 null,
                 DatabaseConfig.Medicao.COLUMN_NAME_HORA + " ASC"
         );
+
         return cursor;
     }
 

@@ -28,17 +28,19 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.pisid2021.app.activities.VerCulturaActivity.CULTURA_ID_EXTRA;
+import static com.example.pisid2021.app.database.DatabaseConfig.Cultura.COLUMN_NAME_ID_CULTURA;
 
 public class AlterarParametroActivity extends AppCompatActivity {
     private static final String IP = UserLogin.getInstance().getIp();
     private static final String PORT = UserLogin.getInstance().getPort();
-    private static final String username= UserLogin.getInstance().getUsername();
+    private static final String username = UserLogin.getInstance().getUsername();
     private static final String password = UserLogin.getInstance().getPassword();
 
     String getParametros = "http://" + IP + ":" + PORT + "/scripts/getParametroCultura.php";
     String updateParametros = "http://" + IP + ":" + PORT + "/scripts/updateParametroCultura.php";
     DatabaseHandler db = new DatabaseHandler(this);
     int culturaID;
+    private int idParametroCultura;
 
     Handler h = new Handler();
     Runnable runnable;
@@ -48,9 +50,9 @@ public class AlterarParametroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Bundle b = getIntent().getExtras();
         int value = -1; // or other values
-        if(b != null)
+        if (b != null)
             value = b.getInt(CULTURA_ID_EXTRA);
-        culturaID=value;
+        culturaID = value;
         setContentView(R.layout.activity_alterar_parametro);
 
         updateParametros();
@@ -61,7 +63,7 @@ public class AlterarParametroActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         //start handler as activity become visible
-        h.postDelayed( runnable = new Runnable() {
+        h.postDelayed(runnable = new Runnable() {
             public void run() {
                 /*updateParametros();
                 drawTextBoxes();
@@ -87,14 +89,14 @@ public class AlterarParametroActivity extends AppCompatActivity {
         EditText DangerZoneMinLuz = findViewById(R.id.DangerZoneMinLuz);
         EditText DangerZoneMaxLuz = findViewById(R.id.DangerZoneMaxLuz);
 
-        int helper=0;
+        int helper = 0;
         Date currentTimestamp = new Date();
         long currentLong = currentTimestamp.getTime();
         DatabaseReader dbReader = new DatabaseReader(db);
 
         Cursor cursorParametros = dbReader.readParametroCulturas(culturaID);
         cursorParametros.moveToFirst();
-        if (cursorParametros!=null && cursorParametros.moveToFirst()) {
+        if (cursorParametros != null && cursorParametros.moveToFirst()) {
             double MinHumidadeValue = cursorParametros.getDouble(cursorParametros.getColumnIndex(DatabaseConfig.ParametroCultura.COLUMN_NAME_MinHumidade));
             double MaxHumidadeValue = cursorParametros.getDouble(cursorParametros.getColumnIndex(DatabaseConfig.ParametroCultura.COLUMN_NAME_MaxHumidade));
             double MinTemperaturaValue = cursorParametros.getDouble(cursorParametros.getColumnIndex(DatabaseConfig.ParametroCultura.COLUMN_NAME_MinTemperatura));
@@ -110,11 +112,11 @@ public class AlterarParametroActivity extends AppCompatActivity {
             cursorParametros.close();
             MinHumidade.setText(String.valueOf(MinHumidadeValue));
             MaxHumidade.setText(String.valueOf(MaxHumidadeValue));
-            MinTemperatura.setText(String.valueOf( MinTemperaturaValue));
+            MinTemperatura.setText(String.valueOf(MinTemperaturaValue));
             MaxTemperatura.setText(String.valueOf(MaxTemperaturaValue));
             MinLuz.setText(String.valueOf(MinLuzValue));
             MaxLuz.setText(String.valueOf(MaxLuzValue));
-            DangerZoneMinHumidade.setText(String.valueOf( DangerZoneMinHumidadeValue));
+            DangerZoneMinHumidade.setText(String.valueOf(DangerZoneMinHumidadeValue));
             DangerZoneMaxHumidade.setText(String.valueOf(DangerZoneMaxHumidadeValue));
             DangerZoneMinTemperatura.setText(String.valueOf(DangerZoneMinTemperaturaValue));
             DangerZoneMaxTemperatura.setText(String.valueOf(DangerZoneMaxTemperaturaValue));
@@ -130,7 +132,7 @@ public class AlterarParametroActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void updateParametros(){
+    private void updateParametros() {
         db.clearParametrosCultura();
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);
@@ -139,14 +141,13 @@ public class AlterarParametroActivity extends AppCompatActivity {
         ConnectionHandler jParser = new ConnectionHandler();
         JSONArray medicoes = jParser.getJSONFromUrl(getParametros, params);
         try {
-            if (medicoes != null){
-                for (int i=0;i< medicoes.length();i++){
+            if (medicoes != null) {
+                for (int i = 0; i < medicoes.length(); i++) {
                     JSONObject c = medicoes.getJSONObject(i);
-                    int IdParametroCultura;
                     try {
-                        IdParametroCultura = c.getInt("IdParametroCultura");
+                        idParametroCultura = c.getInt("IdParametroCultura");
                     } catch (Exception e) {
-                        IdParametroCultura = 0;
+                        idParametroCultura = 0;
                     }
                     int IdCultura;
                     try {
@@ -155,26 +156,26 @@ public class AlterarParametroActivity extends AppCompatActivity {
                         IdCultura = 0;
                     }
 
-                    double MinHumidade=updateMedicaoTry(c,"MinHumidade");
-                    double MaxHumidade=updateMedicaoTry(c,"MaxHumidade");
-                    double MinTemperatura=updateMedicaoTry(c,"MinTemperatura");
-                    double MaxTemperatura=updateMedicaoTry(c,"MaxTemperatura");
-                    double MinLuz=updateMedicaoTry(c,"MinLuz");
-                    double MaxLuz=updateMedicaoTry(c,"MaxLuz");
-                    double DangerZoneMinHumidade=updateMedicaoTry(c,"DangerZoneMinHumidade");
-                    double DangerZoneMaxHumidade=updateMedicaoTry(c,"DangerZoneMaxHumidade");
-                    double DangerZoneMinTemperatura=updateMedicaoTry(c,"DangerZoneMinTemperatura");
-                    double DangerZoneMaxTemperatura=updateMedicaoTry(c,"DangerZoneMaxTemperatura");
-                    double DangerZoneMinLuz=updateMedicaoTry(c,"DangerZoneMinLuz");
-                    double DangerZoneMaxLuz=updateMedicaoTry(c,"DangerZoneMaxLuz");
+                    double MinHumidade = updateMedicaoTry(c, "MinHumidade");
+                    double MaxHumidade = updateMedicaoTry(c, "MaxHumidade");
+                    double MinTemperatura = updateMedicaoTry(c, "MinTemperatura");
+                    double MaxTemperatura = updateMedicaoTry(c, "MaxTemperatura");
+                    double MinLuz = updateMedicaoTry(c, "MinLuz");
+                    double MaxLuz = updateMedicaoTry(c, "MaxLuz");
+                    double DangerZoneMinHumidade = updateMedicaoTry(c, "DangerZoneMinHumidade");
+                    double DangerZoneMaxHumidade = updateMedicaoTry(c, "DangerZoneMaxHumidade");
+                    double DangerZoneMinTemperatura = updateMedicaoTry(c, "DangerZoneMinTemperatura");
+                    double DangerZoneMaxTemperatura = updateMedicaoTry(c, "DangerZoneMaxTemperatura");
+                    double DangerZoneMinLuz = updateMedicaoTry(c, "DangerZoneMinLuz");
+                    double DangerZoneMaxLuz = updateMedicaoTry(c, "DangerZoneMaxLuz");
 
-                    db.insertParametroCultura(IdParametroCultura,IdCultura,
-                            MinHumidade,MaxHumidade,
-                            MinTemperatura,MaxTemperatura,
-                            MinLuz,MaxLuz,
-                            DangerZoneMinHumidade,DangerZoneMaxHumidade,
-                            DangerZoneMinTemperatura,DangerZoneMaxTemperatura,
-                            DangerZoneMinLuz,DangerZoneMaxLuz);
+                    db.insertParametroCultura(idParametroCultura, IdCultura,
+                            MinHumidade, MaxHumidade,
+                            MinTemperatura, MaxTemperatura,
+                            MinLuz, MaxLuz,
+                            DangerZoneMinHumidade, DangerZoneMaxHumidade,
+                            DangerZoneMinTemperatura, DangerZoneMaxTemperatura,
+                            DangerZoneMinLuz, DangerZoneMaxLuz);
                 }
             }
         } catch (JSONException e) {
@@ -182,21 +183,21 @@ public class AlterarParametroActivity extends AppCompatActivity {
         }
     }
 
-private double updateMedicaoTry(JSONObject c,String value){
-    try {
-        return c.getDouble(value);
-    } catch (Exception e) {
-        return 0;
+    private double updateMedicaoTry(JSONObject c, String value) {
+        try {
+            return c.getDouble(value);
+        } catch (Exception e) {
+            return 0;
+        }
     }
-}
 
-    public void irMedicoes(View v){
+    public void irMedicoes(View v) {
         Intent i = new Intent(this, MedicoesActivity.class);
-        i.putExtra(CULTURA_ID_EXTRA,culturaID);
+        i.putExtra(CULTURA_ID_EXTRA, culturaID);
         startActivity(i);
     }
 
-    public void salvarParametros(View v){
+    public void salvarParametros(View v) {
         EditText MinHumidade = findViewById(R.id.MinHumidade);
         EditText MaxHumidade = findViewById(R.id.MaxHumidade);
         EditText MinTemperatura = findViewById(R.id.MinTemperatura);
@@ -210,23 +211,23 @@ private double updateMedicaoTry(JSONObject c,String value){
         EditText DangerZoneMinLuz = findViewById(R.id.DangerZoneMinLuz);
         EditText DangerZoneMaxLuz = findViewById(R.id.DangerZoneMaxLuz);
 
-        String MinHumidadeString =  MinHumidade.getText().toString();
-        String MaxHumidadeString =  MaxHumidade.getText().toString();
-        String MinTemperaturaString =  MinTemperatura.getText().toString();
-        String MaxTemperaturaString =  MaxTemperatura.getText().toString();
-        String MinLuzString =  MinLuz.getText().toString();
-        String MaxLuzString =  MaxLuz.getText().toString();
-        String DangerZoneMinHumidadeString =  DangerZoneMinHumidade.getText().toString();
-        String DangerZoneMaxHumidadeString =  DangerZoneMaxHumidade.getText().toString();
-        String DangerZoneMinTemperaturaString =  DangerZoneMinTemperatura.getText().toString();
-        String DangerZoneMaxTemperaturaString =  DangerZoneMaxTemperatura.getText().toString();
-        String DangerZoneMinLuzString =  DangerZoneMinLuz.getText().toString();
-        String DangerZoneMaxLuzString =  DangerZoneMaxLuz.getText().toString();
+        String MinHumidadeString = MinHumidade.getText().toString();
+        String MaxHumidadeString = MaxHumidade.getText().toString();
+        String MinTemperaturaString = MinTemperatura.getText().toString();
+        String MaxTemperaturaString = MaxTemperatura.getText().toString();
+        String MinLuzString = MinLuz.getText().toString();
+        String MaxLuzString = MaxLuz.getText().toString();
+        String DangerZoneMinHumidadeString = DangerZoneMinHumidade.getText().toString();
+        String DangerZoneMaxHumidadeString = DangerZoneMaxHumidade.getText().toString();
+        String DangerZoneMinTemperaturaString = DangerZoneMinTemperatura.getText().toString();
+        String DangerZoneMaxTemperaturaString = DangerZoneMaxTemperatura.getText().toString();
+        String DangerZoneMinLuzString = DangerZoneMinLuz.getText().toString();
+        String DangerZoneMaxLuzString = DangerZoneMaxLuz.getText().toString();
 
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
-        params.put("culturaID", String.valueOf(culturaID));
+        params.put("IdParametroCultura", String.valueOf(idParametroCultura));
         params.put("MinHumidade", MinHumidadeString);
         params.put("MaxHumidade", MaxHumidadeString);
         params.put("MinTemperatura", MinTemperaturaString);
@@ -241,9 +242,26 @@ private double updateMedicaoTry(JSONObject c,String value){
         params.put("DangerZoneMaxLuz", DangerZoneMaxLuzString);
 
         ConnectionHandler jParser = new ConnectionHandler();
-        jParser.runJSONFromUrl(updateParametros, params);
-
-
+        jParser.getJSONFromUrl(updateParametros, params);
+        /*
+        JSONArray idparametro = jParser.getJSONFromUrl(updateParametros, params);
+        try {
+            if (idparametro != null) {
+                for (int i = 0; i < idparametro.length(); i++) {
+                    JSONObject c = idparametro.getJSONObject(i);
+                    int jsonIdParametroCultura;
+                    try {
+                        jsonIdParametroCultura = c.getInt(DatabaseConfig.ParametroCultura.COLUMN_NAME_IdParametroCultura);
+                    } catch (Exception e) {
+                        jsonIdParametroCultura = 0;
+                    }
+                    System.out.println(jsonIdParametroCultura);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        */
     }
 
 }

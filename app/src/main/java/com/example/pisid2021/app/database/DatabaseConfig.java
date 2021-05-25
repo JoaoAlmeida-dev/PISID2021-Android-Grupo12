@@ -64,7 +64,7 @@ public class DatabaseConfig {
                     Medicao.COLUMN_NAME_NOMECULTURA + " TEXT )";
 
     protected static final String SQL_DELETE_MEDICAO_DATA =
-            "DELETE FROM " + Medicao.TABLE_NAME;
+            "DELETE FROM " + Medicao.TABLE_NAME + " WHERE " + Medicao.TABLE_NAME+"."+Medicao.COLUMN_NAME_HORA + " <= now() - interval 1 day";
 
     protected static final String SQL_CREATE_CULTURA =
             "CREATE TABLE " + Cultura.TABLE_NAME +
