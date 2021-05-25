@@ -89,7 +89,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="MinHumidade"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
 
                     <EditText
@@ -100,7 +100,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="MaxHumidade"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
 
                 </TableRow>
@@ -159,7 +159,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="MinTemperatura"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
 
                     <EditText
@@ -170,8 +170,8 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="MaxTemperatura"
-                        android:inputType="number"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:inputType="numberDecimal" />
 
                 </TableRow>
 
@@ -229,7 +229,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="MinLuz"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
 
                     <EditText
@@ -240,7 +240,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="MaxLuz"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
 
                 </TableRow>
@@ -299,7 +299,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="DangerZoneMinHumidade"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
 
                     <EditText
@@ -310,7 +310,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="DangerZoneMaxHumidade"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
                 </TableRow>
 
@@ -368,7 +368,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="DangerZoneMaxTemperatura"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
 
                     <EditText
@@ -379,7 +379,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="DangerZoneMinTemperatura"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
                 </TableRow>
 
@@ -429,7 +429,7 @@
                     android:layout_weight="1"
                     android:gravity="center">
 
-                    <EditText
+                    numberDecimal<EditText
                         android:id="@+id/DangerZoneMinLuz"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -437,7 +437,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="DangerZoneMinLuz"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
 
                     <EditText
@@ -448,7 +448,7 @@
                         android:ems="8"
                         android:gravity="center"
                         android:hint="DangerZoneMaxLuz"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="12sp" />
                 </TableRow>
 
