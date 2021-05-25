@@ -2,27 +2,24 @@
 	$url="127.0.0.1";
 	$database="culturamysql"; // Alterar nome da BD se necessario
     $conn = mysqli_connect($url,$_POST['username'],$_POST['password'],$database);
-	$sql = "call Alterar_ParametroCultura('". $_POST['username'] ."')";
+	$sql = "call Alterar_ParametroCultura_Investigador('". $_POST['username'] ."',
+	'". $_POST['username'] ."',
+	'". $_POST['culturaID'] ."',
+	'". $_POST['MinHumidade'] ."',
+	'". $_POST['MaxHumidade'] ."',
+	'". $_POST['MinTemperatura'] ."',
+	'". $_POST['MaxTemperatura'] ."',
+	'". $_POST['MinLuz'] ."',
+	'". $_POST['MaxLuz'] ."',
+	'". $_POST['DangerZoneMinHumidade'] ."',
+	'". $_POST['DangerZoneMaxHumidade'] ."',
+	'". $_POST['DangerZoneMinTemperatura'] ."',
+	'". $_POST['DangerZoneMaxTemperatura'] ."',
+	'". $_POST['DangerZoneMinLuz'] ."',
+	'". $_POST['DangerZoneMaxLuz'] ."'
+
+	)";
 	$result = mysqli_query($conn, $sql);
 
-	$response["avisos"] = array();
 
-	if ($result){
-		if (mysqli_num_rows($result)>0){
-			while($r=mysqli_fetch_assoc($result)){
-				//echo $r[0];
-				$ad = array();
-				// Completar com todos os campos da tabela cultura
-				$ad["IdCultura"]             = $r['IdCultura'];
-				$ad["NomeCultura"]           = $r['NomeCultura'];
-				$ad["IdUtilizador"]          = $r['IdUtilizador'];
-				$ad["Estado"]                = $r['Estado'];
-				$ad["IdZona"]                = $r['IdZona'];
-
-				array_push($response["avisos"], $ad);
-			}
-		}
-	}
-	$json = json_encode($response["avisos"]);
-	echo $json;
 	mysqli_close ($conn);

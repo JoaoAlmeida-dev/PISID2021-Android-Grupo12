@@ -30,7 +30,6 @@ import java.util.concurrent.TimeUnit;
 import static com.example.pisid2021.app.activities.VerCulturaActivity.CULTURA_ID_EXTRA;
 
 public class AlterarParametroActivity extends AppCompatActivity {
-
     private static final String IP = UserLogin.getInstance().getIp();
     private static final String PORT = UserLogin.getInstance().getPort();
     private static final String username= UserLogin.getInstance().getUsername();
@@ -227,6 +226,7 @@ private double updateMedicaoTry(JSONObject c,String value){
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
+        params.put("culturaID", String.valueOf(culturaID));
         params.put("MinHumidade", MinHumidadeString);
         params.put("MaxHumidade", MaxHumidadeString);
         params.put("MinTemperatura", MinTemperaturaString);
@@ -241,7 +241,7 @@ private double updateMedicaoTry(JSONObject c,String value){
         params.put("DangerZoneMaxLuz", DangerZoneMaxLuzString);
 
         ConnectionHandler jParser = new ConnectionHandler();
-        JSONArray jsonValidacao = jParser.getJSONFromUrl(updateParametros, params);
+        jParser.runJSONFromUrl(updateParametros, params);
 
 
     }
