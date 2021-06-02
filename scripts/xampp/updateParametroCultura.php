@@ -16,10 +16,10 @@
 	'". $_POST['DangerZoneMaxTemperatura'] ."',
 	'". $_POST['DangerZoneMinLuz'] ."',
 	'". $_POST['DangerZoneMaxLuz'] ."'
-
+	
 	)";
 	$result = mysqli_query($conn, $sql);
-
+	
 	$response["idparametro"] = array();
 	if ($result){
 		if (mysqli_num_rows($result)>0){
@@ -28,7 +28,7 @@
 				$ad["IdParametroCultura"] = $r['IdParametroCultura'];
 				array_push($response["idparametro"], $ad);
 			}
-		}
+		}	
 	}
 	$json = json_encode($response["idparametro"]);
 	echo $json;

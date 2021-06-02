@@ -2,7 +2,7 @@
 	$url="127.0.0.1";
 	$database="culturamysql"; // Alterar nome da BD se necessario
     $conn = mysqli_connect($url,$_POST['username'],$_POST['password'],$database);
-	$sql = "call Selecionar_Cultura()";
+	$sql = "call Selecionar_Cultura('". $_POST['username'] ."')";
 	$result = mysqli_query($conn, $sql);
 
 	$response["avisos"] = array();

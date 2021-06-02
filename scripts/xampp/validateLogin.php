@@ -1,9 +1,4 @@
 	<?php
-	
-	session_start();	
-	//Incluindo a conexão com banco de dados
-	include_once("DatabaseConnection.php");	
-	
 	$url="127.0.0.1";
 	$database="culturamysql"; // Alterar nome da BD se necessario
     $conn = mysqli_connect($url,$_POST['username'],$_POST['password'],$database);
@@ -16,6 +11,5 @@
 		$json = json_encode($response["valid"]);
 		echo $json;
 	}
-	header("Location: Home.php");
 	$result_query_select->close();
 	mysqli_close ($conn);

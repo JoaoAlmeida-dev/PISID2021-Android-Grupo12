@@ -3,18 +3,18 @@
 	$database="culturamysql"; // Alterar nome da BD se necessario
     $conn = mysqli_connect($url,$_POST['username'],$_POST['password'],$database);
 
-	$sql = "SELECT IdParametroCultura,IdCultura,
-	MinHumidade,MaxHumidade,MinLuz,MaxLuz,MinTemperatura,MaxTemperatura,
-	DangerZoneMinHumidade,DangerZoneMaxHumidade,DangerZoneMinLuz,DangerZoneMaxLuz,DangerZoneMinTemperatura,DangerZoneMaxTemperatura
-	FROM parametrocultura,cultura,utililizador
-	WHERE parametrocultura.IdCultura = '". $_POST['culturaID'] ."'
-	AND parametrocultura.IdCultura = cultura.IdCultura
-	AND cultura.idUtilizador = utilizador.IdUtilizador
-	AND utilizador.NomeUtilizador = '". $_POST['username'] ."'";
+	//$sql = "SELECT IdParametroCultura,IdCultura,
+	//MinHumidade,MaxHumidade,MinLuz,MaxLuz,MinTemperatura,MaxTemperatura,
+	//DangerZoneMinHumidade,DangerZoneMaxHumidade,DangerZoneMinLuz,DangerZoneMaxLuz,DangerZoneMinTemperatura,DangerZoneMaxTemperatura
+	//FROM parametrocultura,cultura,utililizador
+	//WHERE parametrocultura.IdCultura = '". $_POST['culturaID'] ."'
+	//AND parametrocultura.IdCultura = cultura.IdCultura
+	//AND cultura.idUtilizador = utilizador.IdUtilizador
+	//AND utilizador.NomeUtilizador = '". $_POST['username'] ."'";
 	
-	//$sql = "call Selecionar_ParametrosCultura('". $_POST['username'] ."','". $_POST['culturaID'] ."')";
+	$sql = "call Selecionar_ParametrosCultura('". $_POST['username'] ."','". $_POST['culturaID']."')";
+	$result = mysqli_query($conn, $sql);
 	
-	$result = mysqli_query($conn, $sql);	
 	$response["medicoes"] = array();
 	if ($result){
 		if (mysqli_num_rows($result)>0){
