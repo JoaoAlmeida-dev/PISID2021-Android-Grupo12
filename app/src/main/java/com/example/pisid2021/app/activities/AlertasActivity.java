@@ -103,7 +103,7 @@ public class AlertasActivity extends AppCompatActivity {
     }
 
     private void getAlertas() {
-                //db.clearAlertas();
+                db.clearAlertas();
                 HashMap<String, String> params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", password);
